@@ -1,0 +1,123 @@
+#include <iostream>
+using namespace std;
+
+// Node structure for the binary tree
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int value) {
+        data = value;
+        left = right = nullptr;
+    }
+};
+
+// Class for binary tree
+class BinaryTree {
+private:
+    Node* root;
+
+    // Helper function for in-order traversal
+    void inOrderTraversal(Node* node) {
+        if (node != nullptr) {
+            inOrderTraversal(node->left);
+            cout << node->data << " ";
+            inOrderTraversal(node->right);
+        }
+    }
+
+    // Helper function to display leaf nodes
+    void displayLeafNodes(Node* node) {
+        if (node != nullptr) {
+            if (node->left == nullptr && node->right == nullptr) {
+                cout << node->data << " ";
+            }
+            displayLeafNodes(node->left);
+            displayLeafNodes(node->right);
+        }
+    }
+
+    // Helper function to insert a node
+    Node* insertNode(Node* node, int value) {
+        if (node == nullptr) {
+            return new Node(value);
+        }
+
+        if (value < node->data) {
+            node->left = insertNode(node->left, value);
+        } else {
+            node->right = insertNode(node->right, value);
+        }
+
+        return node;
+    }
+
+public:
+    BinaryTree() {
+        root = nullptr;
+    }
+
+    // Public method to insert a value
+    void insert(int value) {
+        root = insertNode(root, value);
+        cout << value << " inserted into the binary tree." << endl;
+    }
+
+    // Public method to display the tree (in-order)
+    void display() {
+        if (root == nullptr) {
+            cout << "The tree is empty." << endl;
+        } else {
+            cout << "In-order traversal of the tree: ";
+            inOrderTraversal(root);
+            cout << endl;
+        }
+    }
+
+    // Public method to display leaf nodes
+    void displayLeafNodes() {
+        if (root == nullptr) {
+            cout << "The tree is empty." << endl;
+        } else {
+            cout << "Leaf nodes in the tree: ";
+            displayLeafNodes(root);
+            cout << endl;
+        }
+    }
+};
+
+int main() {
+    BinaryTree tree;
+    int choice, value;
+
+    while (true) {
+        cout << "\nBinary Tree Operations Menu:\n";
+        cout << "1. Insert\n2. Display (In-order Traversal)\n3. Display Leaf Nodes\n4. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        if (choice == 4) {
+            cout << "Exiting program." << endl;
+            break;
+        }
+
+        switch (choice) {
+            case 1:
+                cout << "Enter the value to insert: ";
+                cin >> value;
+                tree.insert(value);
+                break;
+            case 2:
+                tree.display();
+                break;
+            case 3:
+                tree.displayLeafNodes();
+                break;
+            default:
+                cout << "Invalid choice! Please try again." << endl;
+        }
+    }
+
+    return 0;
+}
