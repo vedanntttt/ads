@@ -1,0 +1,99 @@
+#include <iostream>
+#define MAX 100 // Define the maximum size of the queue
+
+using namespace std;
+
+class Queue {
+private:
+    int arr[MAX];
+    int front, rear;
+
+public:
+    Queue() {
+        front = -1;
+        rear = -1;
+    }
+
+    // Function to check if the queue is empty
+    bool isEmpty() {
+        return (front == -1 || front > rear);
+    }
+
+    // Function to check if the queue is full
+    bool isFull() {
+        return (rear == MAX - 1);
+    }
+
+    // Function to add an element to the queue
+    void enqueue(int value) {
+        if (isFull()) {
+            cout << "Queue Overflow! Cannot add " << value << "." << endl;
+        } else {
+            if (front == -1) {
+                front = 0; // Set front to 0 if adding the first element
+            }
+            arr[++rear] = value;
+            cout << value << " enqueued into the queue." << endl;
+        }
+    }
+
+    // Function to remove an element from the queue
+    void dequeue() {
+        if (isEmpty()) {
+            cout << "Queue Underflow! No elements to dequeue." << endl;
+        } else {
+            cout << arr[front++] << " dequeued from the queue." << endl;
+            if (front > rear) { // Reset queue when all elements are dequeued
+                front = rear = -1;
+            }
+        }
+    }
+
+    // Function to display the elements of the queue
+    void display() {
+        if (isEmpty()) {
+            cout << "The queue is empty." << endl;
+        } else {
+            cout << "Queue elements are: ";
+            for (int i = front; i <= rear; i++) {
+                cout << arr[i] << " ";
+            }
+            cout << endl;
+        }
+    }
+};
+
+int main() {
+    Queue queue;
+    int choice, value;
+
+    while (true) {
+        cout << "\nQueue Operations Menu:\n";
+        cout << "1. Enqueue\n2. Dequeue\n3. Display\n4. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        if (choice == 4) {
+            cout << "Exiting program." << endl;
+            break;
+        }
+
+        switch (choice) {
+            case 1:
+                cout << "Enter the value to enqueue: ";
+                cin >> value;
+                queue.enqueue(value);
+                break;
+            case 2:
+                queue.dequeue();
+                break;
+            case 3:
+                queue.display();
+                break;
+            default:
+                cout << "Invalid choice! Please try again." << endl;
+        }
+    }
+
+    return 0;
+}
